@@ -1,0 +1,13 @@
+package gurux.dlms.objects.enums;
+
+/**
+ * Holds the status of the Image transfer process.
+ */
+public enum ImageTransferStatus {
+    IMAGE_TRANSFER_NOT_INITIATED,
+
+    IMAGE_TRANSFER_INITIATED, IMAGE_VERIFICATION_INITIATED,
+    IMAGE_VERIFICATION_SUCCESSFUL, IMAGE_VERIFICATION_FAILED,
+    IMAGE_ACTIVATION_INITIATED, IMAGE_ACTIVATION_SUCCESSFUL,
+    IMAGE_ACTIVATION_FAILED
+}

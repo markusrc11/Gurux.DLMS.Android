@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <timestamp key="fullTimestamp" datePattern="yyyyMMdd"/>
+    <timestamp key="partialTimestamp" datePattern="yyyyMM"/>
+    <property name="media_dir_path" value="${EXT_DIR}/Android/media/${PACKAGE_NAME}"/>
+    <property name="log_path" value="${EXT_DIR}/Android/media/${PACKAGE_NAME}/log/"/>
+
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>${log_path}/${partialTimestamp}/meterapp-${fullTimestamp}.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>[%d{YYYY-MM-DD HH:mm:ss.SSS}] [%thread] %-3level %logger{36} [%file:%line] -> %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    <appender name="file_temp" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>${log_path_temp}foo.log</file>-->
+<!--        <encoder>-->
+<!--            <pattern>[%d{YYYY-MM-DD HH:mm:ss.SSS}] [%thread] %-3level %logger{36} [%file:%line] -> %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <tagEncoder>
+            <pattern>%logger{12}</pattern>
+        </tagEncoder>
+        <encoder>
+            <pattern>[%d{YYYY-MM-DD HH:mm:ss.SSS}] [%thread] %-3level %logger{36} [%file:%line] -> %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} MDC=%X{user} - %msg%n</pattern>-->
+<!--    <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>-->
+    <!--            <pattern>%msg%n</pattern>-->
+
+    <root level="DEBUG">
+        <appender-ref ref="file" />
+<!--        <appender-ref ref="file_temp" />-->
+        <appender-ref ref="logcat" />
+    </root>
+</configuration>

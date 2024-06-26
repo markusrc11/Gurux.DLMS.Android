@@ -1,0 +1,137 @@
+package gurux.dlms.asn;
+
+import java.util.HashMap;
+
+import gurux.dlms.enums.BerType;
+
+final class GXAsn1Settings {
+    private int count;
+    /**
+     * Are comments used.
+     */
+    private boolean comments;
+
+    private final StringBuffer sb = new StringBuffer();
+    private HashMap<Short, String> tags = new HashMap<Short, String>();
+    private HashMap<String, Short> tagbyName = new HashMap<String, Short>();
+
+    private void addTag(final int key, final String value) {
+        tags.put(new Short((short) key), value);
+        tagbyName.put(value.toLowerCase(), new Short((short) key));
+    }
+
+    /**
+     * Constructor.
+     */
+    GXAsn1Settings() {
+        addTag(BerType.APPLICATION, "Application");
+        addTag(BerType.CONSTRUCTED | BerType.CONTEXT, "Context");
+        addTag(BerType.CONSTRUCTED | BerType.SEQUENCE, "Sequence");
+        addTag(BerType.CONSTRUCTED | BerType.SET, "Set");
+        addTag(BerType.OBJECT_IDENTIFIER, "ObjectIdentifier");
+        addTag(BerType.PRINTABLE_STRING, "String");
+        addTag(BerType.UTF8STRING, "UTF8");
+        addTag(BerType.IA5_STRING, "IA5");
+        addTag(BerType.INTEGER, "Integer");
+        addTag(BerType.NULL, "Null");
+        addTag(BerType.BIT_STRING, "BitString");
+        addTag(BerType.UTC_TIME, "UtcTime");
+        addTag(BerType.GENERALIZED_TIME, "GeneralizedTime");
+        addTag(BerType.OCTET_STRING, "OctetString");
+        addTag(BerType.BOOLEAN, "Bool");
+        addTag(-1, "Byte");
+        addTag(-2, "Short");
+        addTag(-4, "Int");
+        addTag(-8, "Long");
+    }
+
+    public String getTag(final short value) {
+        return tags.get(value);
+    }
+
+    public short getTag(final String value) {
+        return tagbyName.get(value);
+    }
+
+    /**
+     * @return XML length.
+     */
+    public int getXmlLength() {
+        return sb.length();
+    }
+
+    /**
+     * Add comment.
+     * 
+     * @param offset
+     *            Offset.
+     * @param value
+     *            Comment value.
+     */
+    public void appendComment(final int offset, final String value) {
+        if (comments) {
+            boolean empty = sb.length() == 0;
+            StringBuffer tmp;
+            if (empty) {
+                tmp = sb;
+            } else {
+                tmp = new StringBuffer();
+            }
+            for (int pos = 0; pos < count - 1; ++pos) {
+                tmp.append(' ');
+            }
+            tmp.append("<!--");
+            tmp.append(value);
+            tmp.append("-->\r\n");
+            if (!empty) {
+                sb.insert(offset, tmp);
+            }
+        }
+    }
+
+    /**
+     * Append spaces to the buffer.
+     * 
+     * @param count
+     *            Amount of spaces.
+     */
+    public void appendSpaces() {
+        for (int pos = 0; pos != count; ++pos) {
+            sb.append(' ');
+        }
+    }
+
+    public void append(final String value) {
+        sb.append(value);
+    }
+
+    public void increase() {
+        ++count;
+        append("\r\n");
+    }
+
+    public void decrease() {
+        --count;
+        appendSpaces();
+    }
+
+    @Override
+    public String toString() {
+        return sb.toString();
+    }
+
+    /**
+     * @return Are comments used.
+     */
+    public boolean isComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments
+     *            Are comments used.
+     */
+    public void setComments(final boolean value) {
+        comments = value;
+    }
+}
